@@ -34,7 +34,7 @@ public class ProdutoController {
 	public void formulario() {
 	}
 
-	@Post("/produto")
+	@Post("/produto/")
 	public void adiciona(Produto produto) {
 		validator.validate(produto);
 		validator.onErrorRedirectTo(this).formulario();

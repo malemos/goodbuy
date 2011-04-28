@@ -13,15 +13,14 @@
 	</head>
 	
 <body>
-	<div id="header" style="background-color: silver;">
+	<div id="header">
+	</div>
+	<div id="erros">
 		<ul>
 			<c:forEach items="${errors}" var="error">
 				<li>${error.category} - ${error.message}</li>
 			</c:forEach>
 		</ul>
-	</div>
-	<div id="erros">
-
 	</div>
 	<div id="body">
 		<div id="menu">
