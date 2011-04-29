@@ -14,6 +14,18 @@
 	
 <body>
 	<div id="header">
+		<div id="carrinho">
+			<h3><a href="<c:url value="/carrinho"/>">Meu carrinho:</a> </h3>
+			<c:if test="${empty carrinho or carrinho.totalDeItens eq 0}">
+				<span>Você não possui itens no seu carrinho</span>
+			</c:if>
+			<c:if test="${carrinho.totalDeItens > 0}">
+				<ul>
+					<li><strong>Itens:</strong> ${carrinho.totalDeItens}</li>
+					<li><strong>Total:</strong><fmt:formatNumber type="currency" value="${carrinho.valorTotal}"/></li>
+				</ul>
+			</c:if>
+		</div>
 	</div>
 	<div id="erros">
 		<ul>
@@ -27,6 +39,30 @@
 			<ul>
 				<li><a href="<c:url value="/produto/novo"/>"> Novo Produto</a></li>
 				<li><a href="<c:url value="/produto"/>"> Lista Produtos</a></li>
+				<li><form action="<c:url value="/produto/busca"/>">
+					<input id="busca" name="nome"/>
+				</form>
+				<script type="text/javascript">
+					$(function() {
+						$("#busca").puts("Busca produtos por nome");
+						$("#busca").autocomplete('/goodbuy/produto/busca.json', {
+							dataType: "json",
+							parse: function(produtos) {
+								return $.map(produtos, function(produto) {
+									return {
+										data: produto,
+										value: produto.nome,
+										result: produto.nome
+									};
+								});
+						},
+						formatItem: function(produto) {
+							return produto.nome + "(" + produto.preco + ")";
+						}
+						});
+					});
+				</script>
+				</li>
 			</ul>
 		</div>
 		<div id="content">

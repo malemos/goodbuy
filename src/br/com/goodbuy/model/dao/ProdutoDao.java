@@ -2,8 +2,11 @@ package br.com.goodbuy.model.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 
 import br.com.caelum.vraptor.ioc.Component;
 import br.com.goodbuy.model.Produto;
@@ -42,5 +45,16 @@ public class ProdutoDao {
 	@SuppressWarnings("unchecked")
 	public List<Produto> findAll() {
 		return (List<Produto>) session.createCriteria(Produto.class).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Produto> findByNome(String nome) {
+		Criteria criteria = session.createCriteria(Produto.class);
+		return criteria.add(
+				Restrictions.ilike("nome", nome, MatchMode.ANYWHERE)).list();
+	}
+
+	public void findByProduto(Produto produto) {
+		session.refresh(produto);
 	}
 }

@@ -9,6 +9,7 @@ import br.com.caelum.vraptor.Put;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
+import br.com.caelum.vraptor.view.Results;
 import br.com.goodbuy.model.Produto;
 import br.com.goodbuy.model.dao.ProdutoDao;
 
@@ -19,7 +20,8 @@ public class ProdutoController {
 	private Result result;
 	private Validator validator;
 
-	public ProdutoController(ProdutoDao produtoDao, Result result, Validator validator) {
+	public ProdutoController(ProdutoDao produtoDao, Result result,
+			Validator validator) {
 		this.produtoDao = produtoDao;
 		this.result = result;
 		this.validator = validator;
@@ -54,11 +56,25 @@ public class ProdutoController {
 		produtoDao.edicao(produto);
 		result.redirectTo(this).lista();
 	}
-	
+
 	@Delete("/produto/{id}")
 	public void remove(Long id) {
 		Produto produto = produtoDao.findById(id);
 		produtoDao.exclusao(produto);
 		result.redirectTo(this).lista();
 	}
+
+	public List<Produto> busca(String nome) {
+		result.include("nome", nome);
+		return produtoDao.findByNome(nome);
+	}
+
+	@Get("/produto/busca.json")
+	public void buscaJson(String q) {
+		result.use(Results.json()).withoutRoot().from(
+				produtoDao.findByNome(q)).exclude("id", "descricao")
+				.serialize();
+
+	}
+
 }
