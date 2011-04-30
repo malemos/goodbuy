@@ -14,6 +14,16 @@
 	
 <body>
 	<div id="header">
+		<div id="usuario">
+		    <c:if test="${usuarioWeb.logado}">
+		        Olá, ${usuarioWeb.nome}! <a href="<c:url value="/logout"/>">Logout</a>
+		    </c:if>
+		    <c:if test="${empty usuarioWeb or not usuarioWeb.logado}">
+		        Você não está logado. <a href="<c:url value="/login"/>">Login</a>
+		        <a href="<c:url value="/usuario/novo"/>">Cadastre-se</a>
+		    </c:if>
+		</div>
+		
 		<div id="carrinho">
 			<h3><a href="<c:url value="/carrinho"/>">Meu carrinho:</a> </h3>
 			<c:if test="${empty carrinho or carrinho.totalDeItens eq 0}">
@@ -21,7 +31,7 @@
 			</c:if>
 			<c:if test="${carrinho.totalDeItens > 0}">
 				<ul>
-					<li><strong>Itens:</strong> ${carrinho.totalDeItens}</li>
+					<li><strong>Item(s):</strong> ${carrinho.totalDeItens}</li>
 					<li><strong>Total:</strong><fmt:formatNumber type="currency" value="${carrinho.valorTotal}"/></li>
 				</ul>
 			</c:if>
@@ -37,7 +47,9 @@
 	<div id="body">
 		<div id="menu">
 			<ul>
-				<li><a href="<c:url value="/produto/novo"/>"> Novo Produto</a></li>
+				<c:if test="${usuarioWeb.logado}">
+					<li><a href="<c:url value="/produto/novo"/>"> Novo Produto</a></li>
+				</c:if>
 				<li><a href="<c:url value="/produto"/>"> Lista Produtos</a></li>
 				<li><form action="<c:url value="/produto/busca"/>">
 					<input id="busca" name="nome"/>

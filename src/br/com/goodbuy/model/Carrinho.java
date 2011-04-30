@@ -38,7 +38,11 @@ public class Carrinho {
 	}
 
 	public Integer getTotalDeItens() {
-		return itens.size();
+		Integer total = 0;
+		for (Item item : this.itens) {
+			total+=item.getQuantidade();
+		}
+		return total;
 	}
 	
 	public void remove(int indiceItem) {

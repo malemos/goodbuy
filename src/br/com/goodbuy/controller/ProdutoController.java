@@ -11,6 +11,7 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.view.Results;
 import br.com.goodbuy.model.Produto;
+import br.com.goodbuy.model.configuration.Restrito;
 import br.com.goodbuy.model.dao.ProdutoDao;
 
 @Resource
@@ -32,10 +33,12 @@ public class ProdutoController {
 		return produtoDao.findAll();
 	}
 
+	@Restrito
 	@Get("/produto/novo")
 	public void formulario() {
 	}
 
+	@Restrito
 	@Post("/produto/")
 	public void adiciona(Produto produto) {
 		validator.validate(produto);
@@ -44,11 +47,13 @@ public class ProdutoController {
 		result.redirectTo(this).lista();
 	}
 
+	@Restrito
 	@Get("/produto/{id}")
 	public Produto edita(Long id) {
 		return produtoDao.findById(id);
 	}
 
+	@Restrito
 	@Put("/produto/{produto.id}")
 	public void altera(Produto produto) {
 		validator.validate(produto);
@@ -57,6 +62,7 @@ public class ProdutoController {
 		result.redirectTo(this).lista();
 	}
 
+	@Restrito
 	@Delete("/produto/{id}")
 	public void remove(Long id) {
 		Produto produto = produtoDao.findById(id);
